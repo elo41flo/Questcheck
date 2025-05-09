@@ -126,7 +126,7 @@
     </div>
 
     <div class="link">
-      <a href="inscription.html">Pas encore de compte ? Créez-en un</a>
+      <a href="index.html">Pas encore de compte ? Créez-en un</a>
     </div>
   </div>
 
@@ -156,7 +156,7 @@
       signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           alert("Connecté !");
-          window.location.href = "index.html"; // Redirige vers la page principale ou missions
+          window.location.href = "accueil.html"; // Redirige vers la page principale ou missions
         })
         .catch((error) => {
           alert("Erreur : " + error.message);
