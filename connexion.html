@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>checkGame - Connexion</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Arial', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(to right, #1e1e2f, #2a2a3d);
+      color: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-size: 16px;
+    }
+
+    .container {
+      background: #333;
+      padding: 3rem;
+      border-radius: 15px;
+      width: 100%;
+      max-width: 380px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      text-align: center;
+    }
+
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      color: #fff;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    input {
+      padding: 0.75rem;
+      border: none;
+      border-radius: 10px;
+      background: #444;
+      color: #fff;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    input:focus {
+      background: #555;
+      outline: none;
+      box-shadow: 0 0 10px rgba(72, 182, 254, 0.7);
+    }
+
+    button {
+      padding: 0.8rem;
+      border: none;
+      border-radius: 10px;
+      background: #4CAF50;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background: #45a049;
+    }
+
+    .google-btn {
+      background-color: #4285F4;
+      color: white;
+      padding: 1rem;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1.5rem;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s ease;
+    }
+
+    .google-btn:hover {
+      background-color: #357ae8;
+    }
+
+    .google-btn img {
+      margin-right: 10px;
+      width: 20px;
+    }
+
+    .link {
+      margin-top: 1.5rem;
+      font-size: 0.9rem;
+    }
+
+    .link a {
+      color: #ccc;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Se connecter</h2>
+    <form id="login-form">
+      <input type="email" id="login-email" placeholder="Email" required />
+      <input type="password" id="login-password" placeholder="Mot de passe" required />
+      <button type="submit">Se connecter</button>
+    </form>
+
+    <!-- Connexion Google -->
+    <div class="google-btn" id="google-login-btn">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/4/4f/Google_2015_logo.svg" alt="Google Logo" />
+      <span>Se connecter avec Google</span>
+    </div>
+
+    <div class="link">
+      <a href="inscription.html">Pas encore de compte ? Créez-en un</a>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAkgBmZbsMguzFHBVdQv-462teUZfKVb08",
+      authDomain: "questcheck-11924.firebaseapp.com",
+      projectId: "questcheck-11924",
+      storageBucket: "questcheck-11924.appspot.com",
+      messagingSenderId: "122594863535",
+      appId: "1:122594863535:web:219a7a877e08e88fbfe75a"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
+
+    // Connexion par email et mot de passe
+    document.getElementById('login-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value;
+      const password = document.getElementById('login-password').value;
+
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          alert("Connecté !");
+          window.location.href = "index.html"; // Redirige vers la page principale ou missions
+        })
+        .catch((error) => {
+          alert("Erreur : " + error.message);
+        });
+    });
+
+    // Connexion avec Google
+    document.getElementById('google-login-btn').addEventListener('click', () => {
+      signInWithPopup(auth, provider)
+        .then((result) => {
+          const user = result.user;
+          alert(`Connecté avec Google : ${user.displayName}`);
+          window.location.href = "index.html"; // Redirige après connexion Google
+        })
+        .catch((error) => {
+          alert("Erreur Google : " + error.message);
+        });
+    });
+  </script>
+</body>
+</html>
