@@ -1,30 +1,147 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Page d'accueil</title>
-    <script type="module">
-        // Import the functions you need from the SDKs you need
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
-        // TODO: Add SDKs for Firebase products that you want to use
-        // https://firebase.google.com/docs/web/setup#available-libraries
-      
-        // Your web app's Firebase configuration
-        const firebaseConfig = {
-          apiKey: "AIzaSyAkgBmZbsMguzFHBVdQv-462teUZfKVb08",
-          authDomain: "questcheck-11924.firebaseapp.com",
-          projectId: "questcheck-11924",
-          storageBucket: "questcheck-11924.firebasestorage.app",
-          messagingSenderId: "122594863535",
-          appId: "1:122594863535:web:219a7a877e08e88fbfe75a"
-        };
-      
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-      </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>checkGame - Tableau de bord</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: #1c102e;
+      color: #fdf6e3;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background-color: #3e206d;
+      color: #ffd60a;
+      padding: 1rem 2rem;
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    main {
+      display: flex;
+      flex: 1;
+    }
+
+    nav {
+      width: 250px;
+      background: #2a1650;
+      padding: 1rem;
+      border-right: 2px solid #ffd60a;
+    }
+
+    nav h2 {
+      margin-bottom: 1rem;
+      color: #ffd60a;
+    }
+
+    nav ul {
+      list-style: none;
+    }
+
+    nav li {
+      padding: 0.75rem;
+      background: #3b2070;
+      margin-bottom: 0.5rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    nav li:hover {
+      background: #502d99;
+    }
+
+    .content {
+      flex: 1;
+      padding: 2rem;
+    }
+
+    .missions {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+    }
+
+    .mission {
+      background: #331e57;
+      border: 2px solid #ffd60a;
+      border-radius: 10px;
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .mission label {
+      cursor: pointer;
+    }
+
+    .mission input[type="checkbox"] {
+      transform: scale(1.4);
+      accent-color: #ffd60a;
+    }
+  </style>
 </head>
 <body>
-    
+
+  <header>
+    🎮 checkGame - Suivi des missions
+  </header>
+
+  <main>
+    <nav>
+      <h2>Mes jeux</h2>
+      <ul>
+        <li onclick="loadGame('Zelda')">Zelda</li>
+        <li onclick="loadGame('GTA V')">GTA V</li>
+        <li onclick="loadGame('Elden Ring')">Elden Ring</li>
+      </ul>
+    </nav>
+
+    <section class="content">
+      <h2 id="game-title">Sélectionnez un jeu</h2>
+      <div class="missions" id="missions-container">
+        <!-- Missions dynamiques ici -->
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const data = {
+      'Zelda': ['Trouver l\'épée', 'Allumer la première tour', 'Battre le premier boss'],
+      'GTA V': ['Braquage du supermarché', 'Fuir la police', 'Rencontrer Lester'],
+      'Elden Ring': ['Tuer Margit', 'Explorer la zone cachée', 'Obtenir la lame sacrée']
+    };
+
+    function loadGame(game) {
+      const title = document.getElementById('game-title');
+      const container = document.getElementById('missions-container');
+      title.textContent = game;
+      container.innerHTML = '';
+
+      const missions = data[game] || [];
+      missions.forEach((mission, index) => {
+        const missionEl = document.createElement('div');
+        missionEl.className = 'mission';
+        missionEl.innerHTML = `
+          <label for="mission-${index}">${mission}</label>
+          <input type="checkbox" id="mission-${index}">
+        `;
+        container.appendChild(missionEl);
+      });
+    }
+  </script>
 </body>
 </html>
